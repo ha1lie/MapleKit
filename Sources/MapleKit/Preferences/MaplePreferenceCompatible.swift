@@ -9,20 +9,21 @@ import Foundation
 
 /// Protocol which allows any given class to be stored in preferences
 public protocol MaplePreferenceCompatible: Codable {
-    /// Function called when saving a value to preferences on disk
+    /// Function called when saving a value to `Preferences` on disk
     /// - Parameters:
-    ///   - id: The preference's identifier
-    ///   - container: The container which this preference belongs to
+    ///   - id: The `Preference`'s identifier
+    ///   - container: The container which this `Preference` belongs to
     func saveForPreferences(withID id: String, inContainer container: String)
-    /// Function called when retreiving a value from preferences on disk
+    
+    /// Function called when retreiving a value from `Preferences` on disk
     /// - Parameters:
-    ///   - id: The preference's identifier
-    ///   - container: The container which holds this preference
-    /// - Returns: The value of the preference
+    ///   - id: The `Preference`'s identifier
+    ///   - container: The container which holds this `Preference`
+    /// - Returns: The value of the `Preference`
     func getFromPreferences(prefWithID id: String, inContainer container: String) -> Self?
 }
 
-public extension MaplePreferenceCompatible {
+public extension MaplePreferenceCompatible { // Default implementations for most classes conforming to this protocol
     func saveForPreferences(withID id: String, inContainer container: String) {
         UserDefaults(suiteName: container)?.set(self, forKey: id)
     }

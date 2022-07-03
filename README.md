@@ -6,6 +6,8 @@ MapleKit was designed to use with Maple, and it's suite of MacOS customization t
 
 ## Docs
 
+For broad guides and how-to's, please Visit [Maple for Developers](https://maple.halz.dev/developers)
+
 For usage details, and other documentation, please visit [MapleKit's Documentation Website](https://maplekit.halz.dev)
 
 ## Installation
@@ -22,4 +24,6 @@ See her [website](https://hey.halz.dev)
 
 Check out her [Twitter](https://twitter.com/h4l1ie)
 
-Help support her work [here](https://DONATION)
+[Buy her a ☕️](https://www.buymeacoffee.com/ha1lie)
+
+> Maple funded by: Caffeine

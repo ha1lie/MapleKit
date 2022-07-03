@@ -8,22 +8,41 @@
 import Foundation
 import SwiftUI
 
+/// > An object used to represent a user's preferences within your Leaf.
+///
+/// Any Preference object may be used to theoretically represent a preference(eg. within your code), or for display to a user(eg. within Maple's settings app)
 public class Preference: Identifiable, Hashable, Codable {
+    
     /// Name of the preference displayed to the user
     public var name: String
+    
     /// Description of the preference displayed to the user
     public var description: String?
+    
     /// Private identifier of the preference, used to access when needed
     public var id: String
-    /// The default value of this preference
+    
+    /// The default `PreferenceValue` of this preference
     public var defaultValue: PreferenceValue?
+    
     /// The name of the container this preference will be stored in
     public var containerName: String
-    /// The type of the value stored by this preference
+    
+    /// The `PreferenceType` of the value stored by this preference
     public var preferenceType: PreferenceType
+    
     /// Function to run when the value of this preference changes
     private var onSet: ((_ newValue: PreferenceValue) -> Void)?
     
+    /// Creates a new `Preference` object
+    /// - Parameters:
+    ///   - name: The name of this `Preference` displayed to the user
+    ///   - description: The description of this `Preference`, if it has one
+    ///   - prefType: The `PreferenceType` of this `Preference`
+    ///   - defaultValue: The default `PreferenceValue`, if it improves UX to have one
+    ///   - id: The unique identifier for this `Preference`
+    ///   - container: The Bundle/Container name of this `Preference`, eg. the ID of the `PreferenceGroup` or `Preferences` to which it belongs
+    ///   - onSet: Method to run when observing a change of this `Preference`'s value
     public init(withTitle name: String, description: String? = nil, withType prefType: PreferenceType, defaultValue: PreferenceValue? = nil, andIdentifier id: String, forContainer container: String, toRunOnSet onSet: ((_ newValue: PreferenceValue) -> Void)? = nil) {
         self.name = name
         self.description = description
@@ -46,8 +65,8 @@ public class Preference: Identifiable, Hashable, Codable {
         }
     }
     
-    /// Stores the value of this preference to persist
-    /// - Parameter val: The new value to assign to this preference
+    /// Stores the value of this preference to persist. This method utilizes the `MaplePreferenceCompatible.saveForPreferences(withID:inContainer:)` method in the wrapped class within this preferences `PreferenceValue` type
+    /// - Parameter val: The new `PreferenceValue` to assign to this preference
     public func setValue(_ val: PreferenceValue) {
         guard val != self.getValue() else { return } // There's got to be a more efficient way to do this, but if there is, I don't know of it
         Preferences.saveValue(val, withKey: self.id, toContainer: self.containerName)
@@ -55,8 +74,8 @@ public class Preference: Identifiable, Hashable, Codable {
         DistributedNotificationCenter.default().postNotificationName(NSNotification.Name(rawValue: self.id), object: val.toString(), userInfo: nil, deliverImmediately: true)
     }
     
-    /// Retrieve the value of the preference from a preference object
-    /// - Returns: Optional value of the preference if found
+    /// Retrieve the `PreferenceValue` for this `Preference`
+    /// - Returns: `PreferenceValue` for this `Preference` if found
     public func getValue() -> PreferenceValue? {
         let returnable = Preferences.valueForKey(self.id, inContainer: self.containerName)
         if returnable == nil {

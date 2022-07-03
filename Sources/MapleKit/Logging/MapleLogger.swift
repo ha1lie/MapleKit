@@ -7,9 +7,13 @@
 
 import Foundation
 
+/// A Logging utility to help with debugging
+/// All logs sent via `MapleLogger` will appear in Maple's Log Window
 public class MapleLogger {
+    /// The bundle name shown with these Logs
     let bundle: String
     
+    /// The Notification.Name listened for by Maple
     private static let logNotification: Notification.Name = Notification.Name(rawValue: "maple.log")
     
     /// Creates a Logger for a given Bundle name

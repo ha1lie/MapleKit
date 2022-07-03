@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/// The value of a `Preference` object
 public enum PreferenceValue: Codable, Equatable {
     public static func == (lhs: PreferenceValue, rhs: PreferenceValue) -> Bool {
         return lhs.toString() == rhs.toString()
@@ -17,6 +18,7 @@ public enum PreferenceValue: Codable, Equatable {
         case prefValue
     }
     
+    /// Errors thrown when initializing a `PreferenceValue` from a Decoder
     enum PreferenceValueError: Error {
         case nondecodable
     }
@@ -41,8 +43,8 @@ public enum PreferenceValue: Codable, Equatable {
     case number(CGFloat?)
     case unknown(Any?)
     
-    /// Translates this object to a String representation
-    /// - Returns: String representation of this PreferenceValue
+    /// Translates this `PreferenceValue` to a String representation
+    /// - Returns: String representation of this `PreferenceValue`
     public func toString() -> String {
         var value = ""
         switch self {
@@ -70,9 +72,9 @@ public enum PreferenceValue: Codable, Equatable {
         return value
     }
     
-    /// Translates given object to a string representation
-    /// - Parameter val: The String representation of the object
-    /// - Returns: PreferenceValue object if valid configuration
+    /// Translates String representation to a `PreferenceValue` object pointing to the correct value
+    /// - Parameter val: The String representation of this `PreferenceValue`
+    /// - Returns: `PreferenceValue` object if val was a valid String representation
     public static func fromString(_ val: String) -> PreferenceValue? {
         let magicIndex = val.index(val.startIndex, offsetBy: 5)
         let dec = val.prefix(upTo: magicIndex)
