@@ -24,6 +24,18 @@ See her [website](https://hey.halz.dev)
 
 Check out her [Twitter](https://twitter.com/h4l1ie)
 
-[Buy her a ☕️](https://www.buymeacoffee.com/ha1lie)
+[Buy me a ☕️](https://www.buymeacoffee.com/ha1lie)
 
 > Maple funded by: Caffeine
+
+## License
+
+MapleKit is licensed under the GPL-3.0 License. Open the file to learn more. Do your homework. Don't steal stuff :)
+
+## Wanna Help Out?
+
+Help contribute to this project by completing any of the below
+
+☑️ Add `async`/`await` support
+☑️ Create better documentation with more examples and clearer explanations
+☑️ Add new functionality! Create!

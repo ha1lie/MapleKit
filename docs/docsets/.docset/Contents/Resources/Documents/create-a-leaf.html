@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Create a Leaf  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="Create a Leaf  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+           Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/ha1lie/MapleKit">
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://https%3A%2F%2Fmaplekit.halz.dev%2Fdocsets%2F.xml">
+            <img class="header-icon" src="img/dash.png" alt="Dash"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html"> Reference</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      Create a Leaf  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Guides.html">Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="create-a-leaf.html">Create a Leaf</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MapleLogger.html">MapleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/Preference.html">Preference</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PreferenceGroup.html">PreferenceGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/Preferences.html">Preferences</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/PreferenceType.html">PreferenceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/PreferenceValue.html">PreferenceValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions.html#/s:Sb">Bool</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions.html#/s:12CoreGraphics7CGFloatV">CGFloat</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Color.html">Color</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions.html#/s:SS">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/UserDefaults.html">UserDefaults</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MaplePreferenceCompatible.html">MaplePreferenceCompatible</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <h1 id='an-all-in-one-guide-to-building-a-leaf' class='heading'>An All-In-One Guide to Building a Leaf</h1>
+
+<p>Getting started creating your first Maple Leaf can be a difficult process. This Guide will show you everything you need to know, as well as the best ways to accomplish things!</p>
+<h1 id='configure-maple' class='heading'>Configure Maple</h1>
+
+<p>Before you get started, you need to make sure Maple is properly configured. Please ensure the below:</p>
+
+<ul>
+<li>Development Enabled: <strong>ON</strong></li>
+<li>Notify on Install: <strong>ON</strong></li>
+</ul>
+
+<p>While this may seem obvious, enabling development may be a silly slip up for some. Furthermore, I recommend you enable <em>Notify on Install</em> in the development section for security reasons - you&rsquo;ll never miss an unknown Maple Leaf being installed and hurting your Mac.</p>
+
+<p>Your settings page should look like below</p>
+
+<p><img src="/mapleSettings.png" alt="Maple Settings Screen"></p>
+
+<p>Now that Maple is ready to run your <em>Leaves-In-Development</em>, let&rsquo;s get started below. In this example, we&rsquo;ll make a simple Leaf which changes all NSTextViews in the Calculator app.</p>
+<h1 id='create-your-xcode-project' class='heading'>Create your Xcode Project</h1>
+
+<p>To get started, create a new Xcode project. Select <code>MacOS</code> -&gt; <code>Command Line Tool</code></p>
+
+<p><img src="/createOne.png" alt="Xcode Project Type Selection"></p>
+
+<p>Then, give your project a name, and a Bundle Identifier. This will have to match your Leaf&rsquo;s Bundle ID, so make sure it is unique to you, and you won&rsquo;t cause any of your users problems.</p>
+
+<p><img src="/createOne.png" alt="Xcode Project Creation Screen"></p>
+
+<p>When you&rsquo;re done, your project layout should look like this:</p>
+
+<p><img src="/createLayout.png" alt="Xcode Project Layout"></p>
+
+<p>Now, we need to make a few changes to your Project&rsquo;s layout, and Build Settings, and Build Phases in order for your project to be built correctly</p>
+<h3 id='dependencies' class='heading'>Dependencies</h3>
+
+<p>As all Maple Leaf&rsquo;s rely on both <a href="https://github.com/ha1lie/MapleKit">MapleKit</a> and <a href="https://github.com/theos/orion">Orion</a> to work, you will need to add these as dependencies to your Xcode project. To do so, go to the general tab for your Leaf&rsquo;s Target in Xcode. There, click the <code>+</code> button, select <code>Add Other</code> and choose <code>Add Package Dependency...</code>. Once in that window, paste both of the below URLs into the search bar to add them. </p>
+
+<p><strong>MapleKit URL</strong>
+<code>https://github.com/ha1lie/MapleKit</code></p>
+
+<p><strong>Orion URL</strong>
+<code>https://github.com/theos/orion</code></p>
+
+<p>When adding Orion, please ensure that your target selection screen matches the below:</p>
+
+<p><img src="/orionTargetSelection.png" alt="Orion Target Selection Screen"></p>
+<h3 id='project-layout' class='heading'>Project Layout</h3>
+
+<p>You&rsquo;ll need to add the following files to your project:</p>
+<h4 id='info-sap' class='heading'>info.sap</h4>
+
+<p>This file is going to hold all of the configuration for your Maple Leaf to communicate the information to Maple. Below is an example</p>
+<pre class="highlight plaintext"><code>name: CalculatorLabels
+author: Hallie
+author-email: hallie@halz.dev
+author-discord: hallie#2162
+tweak-website: https://hey.halz.dev
+description: Customizes your Calculator NSTextViews
+image: x.squareroot
+lib-name: CalculatorLabels
+target-bundle-id: com.apple.calculator
+leaf-id: dev.halz.calclabels
+</code></pre>
+
+<p>In this file, all fields should be seperated by <strong>ONE</strong> newline character, and the field name and contents should be seperated by a colon followed by a space. This file should be created in the same directory as <code>main.swift</code>. The field names are listed below. Bolded fields are required, all other fields can be left out, and won&rsquo;t be shown to the user.</p>
+
+<ul>
+<li><strong>name</strong>: The name of the Maple Leaf</li>
+<li><strong>author</strong>: The name of the developer&hellip;. You!</li>
+<li>author-email: Your email. This will be used for users to communicate with you on questions and concerns</li>
+<li>author-discord: Your discord tag. This will be used for users to communicate with you on questions and concerns</li>
+<li>tweak-website: A website which gives information about your Leaf. Could be a GitHub, your portfolio, or a dedicated website for this Leaf</li>
+<li><strong>description</strong>: The description presented to the user in Maple app</li>
+<li>image: An image used when showing information about your leaf. The images can be chosen from SF Symbols app, and should be the name of an existing installed image</li>
+<li><strong>lib-name</strong>: The name of the executable. If you don&rsquo;t know it right now, leave it blank, we&rsquo;ll get to it below</li>
+<li><strong>target-bundle-id</strong>: The bundle identifier of the process which this Leaf will inject into. For our app, we&rsquo;ll be using <code>com.apple.Calculator</code></li>
+<li><strong>leaf-id</strong>: The bundle identifier for your Maple Leaf. This should match the bundle identifier from when you created your project.</li>
+</ul>
+<h4 id='orionglue-swift' class='heading'>OrionGlue.swift</h4>
+
+<p>This file will be used by the Orion backend to add glue. You&rsquo;re adding this file to make it easier for Xcode to find the code it needs to compile. Create it in the same directory as <code>main.swift</code>, and leave it empty.</p>
+
+<p>At this point, your Project Layout should look like below:</p>
+
+<p><img src="/fileLayout.png" alt="Project Layout Final"></p>
+<h3 id='build-settings' class='heading'>Build Settings</h3>
+
+<p>Ensure you have changed all settings below to match these. Other than that, you will not have to worry as everything should line up.</p>
+
+<ul>
+<li><strong>Linking</strong>
+
+<ul>
+<li>Mach-O Type: Dynamic Library
+
+<ul>
+<li><strong>Packaging</strong></li>
+<li>Product Name: This does not need to be changed, but does need to match the <code>lib-name</code> field in <code>info.sap</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id='build-phases' class='heading'>Build Phases</h3>
+
+<p>You may have noticed earlier that we don&rsquo;t actually want a Command Line Tool when we&rsquo;re all said and done ~ we want a Maple Leaf. To do this, we add a few Build Phases to help accomplish this. </p>
+
+<p>First, add two <code>Run Script</code> phases in the order shown below. You can rename them if you would like, but it is not required. Ensure you drag them to reorder them as they are shown below.</p>
+
+<p><img src="/runScriptCollapsed.png" alt="Build Phases Collapsed"></p>
+
+<p>Then, let&rsquo;s configure them to do what they must</p>
+<h4 id='run-orion-script' class='heading'>Run Orion Script</h4>
+
+<p>Place this run script directly below the <code>Dependencies</code> phase. This will be used to run the Orion precompiler. If you&rsquo;d like to learn more about it, the GitHub is <a href="https://github.com/theos/orion">here</a>. Firstly, you will need the compiled Orion executable. Build it by following the below instructions.</p>
+<h5 id='building-orion' class='heading'>Building Orion</h5>
+
+<p>To build Orion, please find a directory where you would like to build it. Then, run the below commands via terminal from your chosen directory.</p>
+
+<p>Clone Orion
+<code>git clone --recurse-submodules https://github.com/theos/orion</code></p>
+
+<p>Get into the directory
+<code>cd orion</code></p>
+
+<p>Build it
+<code>swift build --configuration release</code></p>
+
+<p>Copy the finished product to where you&rsquo;d like to store it, and remember it!
+<code>cp .build/release/orion /path/to/storing/orion</code></p>
+
+<p>After this you&rsquo;re free to remove the GitHub cloned directory, but you do not have to. Make sure to not lose the executable though!</p>
+<h5 id='making-it-run-orion' class='heading'>Making it run Orion</h5>
+
+<p>Back to your <code>Run Orion</code> script in Build phases, add the below script to this stage. Also make sure to uncheck <code>Based On Dependency Analysis</code> checkbox to force it to run at every build. </p>
+
+<p><code>/path/to/orion -o &quot;${SRCROOT}&quot;/&quot;${TARGET_NAME}&quot;/OrionGlue.swift</code></p>
+
+<p>When complete, it should look exactly as below</p>
+
+<p><img src="/orionScriptOpen.png" alt="Run Orion Script Build Phase"></p>
+
+<p>Note: Your path to the <code>orion</code> executable will likely not be the same. That&rsquo;s simply where I currently have orion stored.</p>
+<h4 id='leaf-run-script' class='heading'>Leaf Run Script</h4>
+
+<p>This Run Script Build Phase should be last in line, coming in just after <code>Copy Files</code>. This script is in charge of creating a .leaf file, and moving it to Maple&rsquo;s directory. Add the below script</p>
+<pre class="highlight shell"><code><span class="nb">cd</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_BUILD_DIR</span><span class="k">}</span><span class="s2">"</span>
+<span class="nb">mkdir</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container
+<span class="nb">cp</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SRCROOT</span><span class="k">}</span><span class="s2">"</span>/<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>/info.sap ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container/info.sap
+<span class="nb">cp</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container/<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># Uncomment the below line if you have setup preferences for this leaf. Otherwise, leave commented</span>
+<span class="c"># swift "${SRCROOT}"/"${TARGET_NAME}"/"${TARGET_NAME}"Preferences.swift ./"${TARGET_NAME}"Container/prefs.json</span>
+
+zip <span class="nt">-r</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container
+
+<span class="nb">cp</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip ~/Library/Application<span class="se">\ </span>Support/Maple/Development/<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip
+<span class="nb">rm</span> <span class="nt">-rf</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container
+<span class="nb">rm</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip
+</code></pre>
+
+<p>As you can see above, there is a commented line which regards to Maple Preferences, which you can uncomment once you have configured settings(If you choose to implement them for your Leaf). Uncommenting this line without having set that up will prevent it from finishing properly.</p>
+
+<p>Again, you will also need to uncheck <code>Based on Dependency Analysis</code> checkbox to allow this script to run on every build. Once you&rsquo;re done, your phase will look like below.</p>
+
+<p><img src="/leafScriptOpen.png" alt="Leaf Run Phase Open"></p>
+<h3 id='complete' class='heading'>Complete!</h3>
+
+<p>Now, your project is setup and ready to start building. Once you put some form of an Orion class into the files, it should compile without issue. If you build your Maple Leaf now, you should receive an alert telling you that it has been installed and is now running. If you don&rsquo;t, then ensure you have your <code>info.sap</code> file configured properly, and you&rsquo;ve followed all steps above. Just like below, you should be able to see your Leaf in Maple&rsquo;s list, just like below!</p>
+
+<p><img src="/mapleLeafList.png" alt="Maple&#39;s Leaf List"></p>
+
+<p>When developing your Leaf, make sure to reference <a href="https://orion.theos.dev">Orion Docs</a> as needed. Place all <code>Hook</code> Classes into the <code>main.swift</code> file, or at least one, to make sure that everything is loaded at runtime. Do not delete nor rename <code>main.swift</code> as it is needed by the Xcode compiler.</p>
+
+<p><strong>ATTN DEVELOPERS:</strong> If you know how to make Xcode templates, and would like to help contribute to Maple, please feel free to make some, and send me a message using any contact found on my GitHub profile or other website so that we can best work together to help other developers. While I attempted to make some, it was eventually simply not worth my time, and I did not know what I was doing well enough. </p>
+<h1 id='use-maplelogger-to-improve-your-flow' class='heading'>Use MapleLogger to Improve Your Flow</h1>
+
+<p>As a developer, you&rsquo;re familiar with the need to debug your code, and I&rsquo;m sure your no newbie to this. However, when our code is running in a process we don&rsquo;t have access to, this can get complicated. Sure, you could attempt to tediously make Xcode&rsquo;s logging window attach to the new process, but in all honesty, that get&rsquo;s tiring, and well, I don&rsquo;t know where to start on making it do that anyway. So! This was the closest I got to figuring out a good alternative</p>
+
+<p>Using MapleKit&rsquo;s package, you&rsquo;re able to easily send logs to Maple, and view them within Maple&rsquo;s log window. To get to this window, open Maple&rsquo;s Menu Bar Window, hover over the ellipsis(&hellip;) and click on <code>Logs</code>. This will open a window similar to below</p>
+
+<p><img src="/mapleLogWindow.png" alt="Maple&#39;s Log Window"></p>
+
+<p>Then, to help you get rid of the junk, click on the &lsquo;Development Logs` tab. This will filter out all of the logs given from Maple&rsquo;s app, and limit it to just third party logs. If you have a lot of leaves installed, you can further limit the amount of logs that you see by entering your leave&rsquo;s Bundle Identifier into the search field.</p>
+
+<p>It&rsquo;s important to note that all logs are also exportable. This means that any time a user is reporting a bug or problem, you can ask them for their exported <code>.log</code> file which they can export with the click of a button to send to you for easy debugging. </p>
+
+<p>Please also note that Maple Logs are <strong>not encrypted</strong>. This means that <strong>ANY</strong> process which listens for a Maple Log notification will be able to read the contents of it, as well as the stored file being readable by the user. <strong>Do not store sensitive information in logs</strong>. This includes developer keys, API endpoints, DRM protected content, etc. It is fine to use while developing on your own machine, but do not push without removing them. </p>
+
+<p>Now, to get to know how to use MapleLogger like a power user</p>
+<h3 id='log-types' class='heading'>Log Types</h3>
+
+<p>Now, there are three types of logs that Maple will handle: <code>Normal</code>, <code>Error</code>, and <code>Warning</code>. All three of these logs are easy to use, but can help you by visually differentiating them within the log window. </p>
+<h4 id='normal-logs' class='heading'>Normal Logs</h4>
+
+<p>These logs are the easiest to use, and act plainly, without any prefix, and they show up in the default text color</p>
+<h4 id='warning-logs' class='heading'>Warning Logs</h4>
+
+<p>These logs indicate that something might be awry, and guide you to take a look at them. They&rsquo;re displayed in a yellow color.</p>
+
+<p>To use, simply preface your log with <code>WARNING</code>. This prefix will not be shown within the log displayed to the user, thus eliminating that ugly text block.</p>
+<h4 id='error-logs' class='heading'>Error Logs</h4>
+
+<p>These logs indicate that something has crashed. It&rsquo;s best to use these in final products as well to ensure that users can report crashes to you. </p>
+
+<p>To use, simply preface your log with <code>ERROR</code> and it will be displayed as an error message. This prefix will not be shown within the log displayed to the user, thus eliminating that ugly text block.</p>
+<h3 id='best-practices' class='heading'>Best Practices</h3>
+
+<p>While documentation for MapleLogger can be found <a href="https://maplekit.halz.dev/Classes/MapleLogger.html">here</a>, here are some suggestions for how to best use it. </p>
+
+<p>Since MapleLogger relies on an initialized object to send logs to Maple(this is to help differentiate your logs from another leaf&rsquo;s), it&rsquo;s best that you only initialize this once. I personally recommend creating a shared public global variable, since this does not affect security(so long as you do not pass sensitive information to it), and allows you to simply call it however you need. An example is below</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">MapleKit</span>
+
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">logger</span><span class="p">:</span> <span class="kt">MapleLogger</span> <span class="o">=</span> <span class="kt">MapleLogger</span><span class="p">(</span><span class="nv">forBundle</span><span class="p">:</span> <span class="s">"dev.halz.calculatorlabels"</span><span class="p">)</span>
+
+<span class="kd">class</span> <span class="kt">HookOne</span><span class="p">:</span> <span class="kt">ClassHook</span><span class="o">&lt;</span><span class="kt">NSTextView</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="p">`</span><span class="nv">init</span><span class="p">`()</span> <span class="p">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="nf">log</span><span class="p">(</span><span class="s">"Initializing Hook One!"</span><span class="p">)</span>
+        <span class="n">orig</span><span class="o">.</span><span class="p">`</span><span class="nv">init</span><span class="p">`()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">HookTwo</span><span class="p">:</span> <span class="kt">ClassHook</span><span class="o">&lt;</span><span class="kt">NSSlider</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="p">`</span><span class="nv">init</span><span class="p">`()</span> <span class="p">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="nf">log</span><span class="p">(</span><span class="s">"Initializing Hook Two!"</span><span class="p">)</span>
+        <span class="n">orig</span><span class="o">.</span><span class="p">`</span><span class="nv">init</span><span class="p">`()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id='too-long' class='heading'>Too Long?</h4>
+
+<p>If you think the syntax <code>logger.log(&quot;ERROR I don&#39;t know what I&#39;m doing&quot;)</code> is too long, you&rsquo;re more than welcome to shorten it. Below is a code snippet which would allow you to call a shorter function name <code>mlog</code></p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">MapleKit</span>
+
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">logger</span><span class="p">:</span> <span class="kt">MapleLogger</span> <span class="o">=</span> <span class="kt">MapleLogger</span><span class="p">(</span><span class="nv">forBundle</span><span class="p">:</span> <span class="s">"dev.halz.calculatorlabels"</span><span class="p">)</span>
+
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">mlog</span><span class="p">(</span><span class="n">_</span> <span class="nv">log</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">logger</span><span class="o">.</span><span class="nf">log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Now, simply replace your <code>print(_)</code> calls with <code>mlog(_)</code>, and you&rsquo;re good to go!</p>
+<h1 id='add-preferences' class='heading'>Add Preferences</h1>
+
+<p>Now that you&rsquo;ve built out a great Maple Leaf, you&rsquo;re wondering how you can best let your users do what Maple was built for&hellip; customize! Preferences are the best way to let a user make your Leaf, well, <em>theirs</em>! </p>
+
+<p>Follow the below steps to easily get setup and start using preferences</p>
+<h2 id='add-preferences-file' class='heading'>Add Preferences File</h2>
+
+<p>First things first, you&rsquo;ll need a preferences file. This is used to create and export your preferences as a JSON file, which can be used to share them with the Maple app. While this file does have a lot of boiler plate code, you can get a copy of it <a href="https://gist.github.com/ha1lie/adccaefa3f7b0e67e95e6ecac4b57cef">here on GitHub</a>. Once you download the file, drag it into your Xcode project file structure, and rename it according to your Xcode project name. Make sure it matches exactly. After this step, your project layout should look like below</p>
+
+<p><img src="/preferencesFileLayout.png" alt="Preferences File Xcode Project Layout"></p>
+
+<p>Now, you may notice that you have an error. This is because this file is meant to be run on it&rsquo;s own, and not compiled with your Leaf. To remove it, open the file inspector for this file, and uncheck your Leaf from the target membership section. Once you do that, it should look like the screenshot below, and you should have no more errors.</p>
+
+<p><img src="/prefTargetMember.png" alt="Target Membership Preferences File"></p>
+
+<p>Finally, update the bundle identifiers and preference identifiers in the template file to match what you want. Also, add <code><a href="Classes/PreferenceGroup.html">PreferenceGroup</a></code>s and <code><a href="Classes/Preference.html">Preference</a></code>s as you like! To clarify any questions, see the links to these objects in the leftside panel! Documentation will hopefully be updated whenever the dopamine allows.</p>
+<h2 id='uncomment-the-run-script' class='heading'>Uncomment the Run Script</h2>
+
+<p>Remember when we setup the Run Script build phase earlier in our project? There was a commented line which stopped it from crashing. Now, we need that line! Open the Xcode project editor, and go to <code>Your Target</code> -&gt; <code>Build Phases</code> and select the last <code>Run Script</code> phase. In that script there should be two lines which look like below. </p>
+
+<p><img src="/commentedPrefsScript.png" alt="Commented Lines"></p>
+
+<p>Delete the <code>#</code> sign from the beginning of the <code>swift ...</code> line so that it instead looks like this:</p>
+
+<p><img src="/uncommentedPrefsLines.png" alt="Uncommented Pref Line"></p>
+
+<p>Now your preferences will be bundled with your Leaf when you install them in Maple. See below.</p>
+
+<p><img src="/settingsPocSS.png" alt="Preferences POC Screenshot"></p>
+<h2 id='develop-for-preferences' class='heading'>Develop for Preferences</h2>
+
+<p>Now, you&rsquo;ve reached the final step. It&rsquo;s time to develop your Leaf to make the best with it&rsquo;s new power!</p>
+
+<p>There are two ways to interact with preferences. Unfortunately, you should only use one of them in any given Leaf: Instant Notifications and Value Retrieval or Asynchronous Notifications and Value Retreival. So, how do you know which to use?</p>
+<h4 id='the-app-sandbox' class='heading'>The App Sandbox</h4>
+
+<p>Unfortunately for developers, but gratefully for users, Apple implemented something called the App Sandbox for most apps. Apps which are sandboxed are not allowed to access files stored outside of designated directories, as well as restrictions on Swift&rsquo;s <code>DistributedNotificationCenter</code> and other things. Due to this, there have been two Systems setup below. If you are modifying a sandboxed application, you will need to use the Asynchronous method, otherwise, it&rsquo;s recommended you use instantaneous for ease of development and a better user experience.</p>
+<h2 id='instantaneous' class='heading'>Instantaneous</h2>
+
+<p>This Preference Value protocol should only be used in processes which are not sandboxed.</p>
+<h3 id='retrieve-value-on-call' class='heading'>Retrieve Value On Call</h3>
+
+<p>To get the value of a preference at any given time, use either of the below methods</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">PreferenceValue</span><span class="p">?</span> <span class="o">=</span> <span class="kt">Preferences</span><span class="o">.</span><span class="nf">valueForKey</span><span class="p">(</span><span class="s">"**PREFERENCE ID**"</span><span class="p">,</span> <span class="nv">inContainer</span><span class="p">:</span> <span class="s">"**YOUR LEAF BUNDLE ID**"</span><span class="p">)</span>
+</code></pre>
+
+<p>If you have a pre-existing <code><a href="Classes/Preferences.html">Preferences</a></code> object which is configured with your Bundle ID already, you can use:</p>
+<pre class="highlight swift"><code><span class="c1">// Global variable</span>
+<span class="k">let</span> <span class="nv">preferences</span><span class="p">:</span> <span class="kt">Preferences</span> <span class="o">=</span> <span class="kt">Preferences</span><span class="p">(</span><span class="nv">forBundle</span><span class="p">:</span> <span class="s">"**YOUR LEAF BUNDLE ID**"</span><span class="p">)</span>
+
+<span class="kd">private</span> <span class="kd">func</span> <span class="nf">getTheValue</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">PreferenceValue</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="n">preferences</span><span class="o">.</span><span class="nf">valueForKey</span><span class="p">(</span><span class="s">"**PREFERENCE ID**"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="kt">Error</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='asynchronous' class='heading'>Asynchronous</h2>
+<h3 id='retrieve-a-value' class='heading'>Retrieve a value</h3>
+
+<p>Now, due to the limitations which were discussed earlier, your process isn&rsquo;t able to read the preferences file like non-sandboxed apps are. The other restriction placed is that Notifications sent through the <code>DistributedNotificationCenter</code> on MacOS can&rsquo;t have notifications with non-nil <code>userInfo</code> arguments. To get around this, we use the fact that Notification Listeners will stil trigger with <code>object</code> being non-nil. </p>
+
+<p>The function to use for this is: </p>
+<pre class="highlight swift"><code><span class="kt">Preferences</span><span class="o">.</span><span class="nf">expensiveValueForKey</span><span class="p">(</span><span class="n">_</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">inContainer</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">withCompletionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="n">_</span> <span class="nv">prefValue</span><span class="p">:</span> <span class="kt">PreferenceValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span>
+</code></pre>
+
+<p>An example of this in use: </p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">PreferenceValue</span><span class="p">?</span>
+    <span class="c1">// Get the value</span>
+    <span class="kt">Preferences</span><span class="o">.</span><span class="nf">expensiveValueForKey</span><span class="p">(</span><span class="s">"PreferenceKey"</span><span class="p">,</span> <span class="nv">inContainer</span><span class="p">:</span> <span class="s">"LeafBundleID"</span><span class="p">)</span> <span class="p">{</span> <span class="n">prefValue</span> <span class="k">in</span> 
+        <span class="n">value</span> <span class="o">=</span> <span class="n">prefValue</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Finish initialization</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Please note: Do not use this on Sandboxed app. This is a complicated pattern of adding multiple listeners to <code>DistributedNotificationCenter</code> which is used by a large portion of the MacOS system, and can get bogged down by using it too often. Once at initialization is enough :) </p>
+<h2 id='notify-on-change' class='heading'>Notify On Change</h2>
+
+<p>Sometimes, you may want to initialize a variable at startup, but know when that value changes throughout runtime, and without having to retrieve it many times. This is the solution: </p>
+
+<ol>
+<li>Create a <code><a href="Classes/Preference.html">Preference</a></code> object</li>
+<li>Make sure <code>onSet</code> is non-nil</li>
+<li>Watch the magic happen</li>
+</ol>
+
+<p>This is an example below</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">preference</span><span class="p">:</span> <span class="kt">Preference</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+
+<span class="kd">func</span> <span class="nf">updatePreferenceValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">val</span><span class="p">:</span> <span class="kt">PreferenceValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">updateStuff</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Initialization</span>
+    <span class="n">preference</span> <span class="o">=</span> <span class="kt">Preference</span><span class="p">(</span><span class="nv">withTitle</span><span class="p">:</span> <span class="s">"Title"</span><span class="p">,</span> <span class="nv">withType</span><span class="p">:</span> <span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="nv">andIdentifier</span><span class="p">:</span> <span class="s">"PREFERENCE ID"</span><span class="p">,</span> <span class="nv">forContainer</span><span class="p">:</span> <span class="s">"CONTAINER NAME"</span><span class="p">,</span><span class="nv">toRunOnSet</span><span class="p">:</span> <span class="p">{</span> <span class="n">newValue</span> <span class="k">in</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">pref</span>    <span class="o">=</span> <span class="n">newValue</span> <span class="p">{</span>
+            <span class="nf">updatePreferenceValue</span><span class="p">(</span><span class="n">pref</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+</code></pre>
+<h1 id='done' class='heading'>Done!</h1>
+
+<p>Now, you know how to make a Maple Leaf! It&rsquo;s time to get to work to make Maple an awesome tool for all of the users</p>
+
+<p>If this guide helped you, give me a shoutout anywhere below, it really really helps! Any more questions? Send me a message! </p>
+
+<p><a href="https://twitter.com/h4l1ie">Twitter @h4l1ie</a></p>
+
+<p><a href="https://github.com/ha1lie">GitHub @ha1lie</a></p>
+
+<p><a href="https://www.buymeacoffee.com/ha1lie">Buy me a Coffee ☕️</a></p>
+<h1 id='wanna-help-out' class='heading'>Wanna Help Out?</h1>
+
+<p><strong>Contribute to the project!</strong> Both <a href="https://github.com/ha1lie/maple">Maple</a> and <a href="https://github.com/ha1lie/maplekit">MapleKit</a></p>
+
+<p><strong>Make Leaves!</strong> This project can&rsquo;t survive without people working to make it useful! Add your own spin on everything here!</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2022 <a class="link" href="https://hey.halz.dev" target="_blank" rel="external noopener">Hallie</a>. All rights reserved. (Last updated: 2022-07-21)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
