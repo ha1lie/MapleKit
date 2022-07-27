@@ -17,43 +17,218 @@ Your settings page should look like below
 
 Now that Maple is ready to run your *Leaves-In-Development*, let's get started below. In this example, we'll make a simple Leaf which changes all NSTextViews in the Calculator app.
 
+# Prep your Mac
+
+If this is your first time developing a Maple Leaf, you'll need to install `mbuild` which is a small utility to simplify the install process of your Leaf when developing it. You can see the [GitHub here](https://github.com/ha1lie/mbuild).
+
+### Install mbuild
+
+Open a Terminal window, and directly from the home directory, run the following commands. 
+
+1. Create a directory to hold mbuild. You can put this anywhere, or use any existing directory. I'll keep mine at `~/maple/`  Make sure you adjust all directories in the below commands to reflect where you will keep mbuild.
+
+```bash
+mkdir ~/maple
+```
+
+2. Download mbuild to the directory
+
+```bash
+curl -L -o ~/maple/mbuild https://github.com/ha1lie/mbuild/releases/download/v1.0/mbuild
+```
+
+3. Make it executable, so it can run. Enter your password if prompted
+
+```bash
+chmod +x ~/maple/mbuild
+```
+
+4. Add the containing folder to your `$PATH` variable. This will vary from machine to machine. Most Macs run zsh, like mine, and it should just be a matter of adding the below line to the **end** of your `~/.zprofile` file
+
+```
+export PATH="$PATH:/Users/hallie/maple"
+```
+
+Once you do that, close and open a new window, and you're all set!
+
+### Testing mbuild
+
+Before you get up and running, test mbuild to make sure you did all of the above steps correctly. In your home directory, run `mbuild` in your terminal, and it should spit out the help prompt for you. 
+
+### Using mbuild
+
+To use mbuild, you'll want to have a terminal open in the top level directory of your SPM project. Then, run it like below, replacing `PROJECTNAME` with the correct name. Running this command will run swift build to create the dylib, package your leaf, and install it to Maple. 
+
+```bash
+mbuild PROJECTNAME
+```
+
+If you're building a leaf with preferences, you'll want to add the `--prefs` flag as well. 
+
+Finally, if you're building a final version of your leaf, you'll want to add the `--release-mode` flag to the end of the command. 
+
 # Create your Xcode Project
 
-To get started, create a new Xcode project. Select `MacOS` -> `Command Line Tool`
+Thanks to a quick update after Maple was initially released, building Maple Leafs actually got a reboot, and this section is now a lot quicker thanks to being able to utilize SPM projects!
 
-![Xcode Project Type Selection](/createOne.png)
+First, start a new Xcode project, select `Multiplatform` -> `Swift Package`
 
-Then, give your project a name, and a Bundle Identifier. This will have to match your Leaf's Bundle ID, so make sure it is unique to you, and you won't cause any of your users problems.
+![Xcode Project Type Selection](/createSPM.png)
 
-![Xcode Project Creation Screen](/createOne.png)
+Click `Next` and then choose a name for your Leaf, as well as where you'd like to store it. I created mine in the Documents directory, and named it MyVolume. When you're ready, click `Create`
 
-When you're done, your project layout should look like this:
+![Xcode Project Configuration Screen](/spmConf.png)
 
-![Xcode Project Layout](/createLayout.png)
+Your project will initialize and open to it's `Package.swift` file, which should look extremely similar to the one below. 
 
-Now, we need to make a few changes to your Project's layout, and Build Settings, and Build Phases in order for your project to be built correctly
+```swift
+// swift-tools-version: 5.6
+// The swift-tools-version declares the minimum version of Swift required to build this package.
 
-### Dependencies 
+import PackageDescription
 
-As all Maple Leaf's rely on both [MapleKit](https://github.com/ha1lie/MapleKit) and [Orion](https://github.com/theos/orion) to work, you will need to add these as dependencies to your Xcode project. To do so, go to the general tab for your Leaf's Target in Xcode. There, click the `+` button, select `Add Other` and choose `Add Package Dependency...`. Once in that window, paste both of the below URLs into the search bar to add them. 
+let package = Package(
+    name: "MyVolume",
+    products: [
+        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        .library(name: "MyVolume",
+                 targets: ["MyVolume"]),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        .target(name: "MyVolume",
+                dependencies: []),
+        .testTarget(name: "MyVolumeTests",
+                    dependencies: ["MyVolume"]),
+    ]
+)
+```
 
-**MapleKit URL**
-`https://github.com/ha1lie/MapleKit`
+## Configure Package.swift 
 
-**Orion URL**
-`https://github.com/theos/orion`
+As you can see, this file is responsible for all of the metadata associated with your project. We're going to make just a few tweaks to it.
 
-When adding Orion, please ensure that your target selection screen matches the below:
+### Platforms
 
-![Orion Target Selection Screen](/orionTargetSelection.png)
+Firstly, you're going to want to tell Xcode what platforms this software can run on. For us, it's any versions of MacOS higher than 11.0 (MacOS Big Sur). We can declare this by adding the following lines just under the `name` declaration.
 
-### Project Layout
+```swift
+platforms: [
+    .macOS(.v11),
+]
+```
 
-You'll need to add the following files to your project:
+Of course, if your Leaf targets a higher version of MacOS for any reason, you can change it to that version, but because of what Maple supports, you cannot specify anything below 11.0, or else Xcode will complain. 
+
+### Targets and Products
+
+Targets and products specify what we are building. We'll be building a *Dynamic Library*, so we need to specify that. 
+
+In `targets: []`, delete the `.target(name: "Project Name"...` object, and replace it with the below code while replacing `**PROJECTNAME**` with the name of your project.
+
+```swift 
+    .executableTarget(name: "**PROJECTNAME**",
+                      dependencies: [
+                          .product(name: "MapleKit", package: "maplekit"),
+                          .product(name: "Orion", package: "orion"),
+                      ], 
+                      exclude: [
+                          "info.sap"
+                      ],
+                      plugins: [
+                          .plugin(name: "OrionPlugin", package: "orion"),
+                      ],
+                    ),
+```
+
+This does a few things...
+
+1. Defines an executable target, meaning that it will compile code which can be run
+2. Adds both `MapleKit` and `Orion` as dependencies. Xcode will complain for a minute, but we'll fix it below
+3. Preliminarily excludes `info.sap` files from your sources... we'll add this later
+4. Adds the Orion Pre-Processor so that Orion can be run
+
+Now, products are the finished products created when compiling the source code. Most of the work has already been done for us, but Xcode generated code for a static library. We need ours to be dynamic. Change the `.library` argument in `products: []` to mirror below.
+
+```swift
+...
+products: [
+    .library(name: "MyVolume",
+             type: .dynamic,
+             targets: ["MyVolume"]),
+],
+...
+```
+
+### Dependencies
+
+Remember how Maple Leafs are built with MapleKit, and the method replacement is done with Orion? Well, those are both dependencies, and we have to tell Xcode that. There is already a section for dependencies, so add the below lines within the `[]` array. 
+
+```swift
+    .package(url: "https://github.com/ha1lie/maplekit", branch: "main"),
+    .package(url: "https://github.com/theos/orion", branch: "master"),
+```
+
+### Done
+
+Once you're all said and done, your `Package.swift` file should look like below
+
+```swift
+// swift-tools-version: 5.6
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "MyVolume",
+    platforms: [
+        .macOS(.v11),
+    ],
+    products: [
+        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        .library(name: "MyVolume",
+                 type: .dynamic,
+                 targets: ["MyVolume"]),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/ha1lie/maplekit", branch: "main"),
+        .package(url: "https://github.com/theos/orion", branch: "master"),
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        .executableTarget(name: "MyVolume",
+                      dependencies: [
+                          .product(name: "MapleKit", package: "maplekit"),
+                          .product(name: "Orion", package: "orion"),
+                      ], 
+                      exclude: [
+                          "info.sap"
+                      ],
+                      plugins: [
+                          .plugin(name: "OrionPlugin", package: "orion"),
+                      ],
+                    ),
+        .testTarget(name: "MyVolumeTests",
+                    dependencies: ["MyVolume"]),
+    ]
+)
+```
+
+## Add Needed Files
+
+There is just one more file needed before you can begin compiling your leaf, and that's Maple's meta-data file, `info.sap`
 
 #### info.sap
 
-This file is going to hold all of the configuration for your Maple Leaf to communicate the information to Maple. Below is an example
+This file is going to hold all of the configuration for your Maple Leaf to communicate the information to Maple. Create this file in your Sources folder, within your Project Name folder. Below is an example
 
 ```
 name: CalculatorLabels
@@ -70,107 +245,20 @@ leaf-id: dev.halz.calclabels
 
 In this file, all fields should be seperated by **ONE** newline character, and the field name and contents should be seperated by a colon followed by a space. This file should be created in the same directory as `main.swift`. The field names are listed below. Bolded fields are required, all other fields can be left out, and won't be shown to the user.
 
- - **name**: The name of the Maple Leaf
- - **author**: The name of the developer.... You!
- - author-email: Your email. This will be used for users to communicate with you on questions and concerns
- - author-discord: Your discord tag. This will be used for users to communicate with you on questions and concerns
- - tweak-website: A website which gives information about your Leaf. Could be a GitHub, your portfolio, or a dedicated website for this Leaf
- - **description**: The description presented to the user in Maple app
- - image: An image used when showing information about your leaf. The images can be chosen from SF Symbols app, and should be the name of an existing installed image
- - **lib-name**: The name of the executable. If you don't know it right now, leave it blank, we'll get to it below
- - **target-bundle-id**: The bundle identifier of the process which this Leaf will inject into. For our app, we'll be using `com.apple.Calculator`
- - **leaf-id**: The bundle identifier for your Maple Leaf. This should match the bundle identifier from when you created your project. 
-
-#### OrionGlue.swift
-
-This file will be used by the Orion backend to add glue. You're adding this file to make it easier for Xcode to find the code it needs to compile. Create it in the same directory as `main.swift`, and leave it empty.
-
-At this point, your Project Layout should look like below:
-
-![Project Layout Final](/fileLayout.png)
-
-### Build Settings
-
-Ensure you have changed all settings below to match these. Other than that, you will not have to worry as everything should line up.
-
- - **Linking**
-     - Mach-O Type: Dynamic Library
-- **Packaging**
-    - Product Name: This does not need to be changed, but does need to match the `lib-name` field in `info.sap` 
-
-### Build Phases
-
-You may have noticed earlier that we don't actually want a Command Line Tool when we're all said and done ~ we want a Maple Leaf. To do this, we add a few Build Phases to help accomplish this. 
-
-First, add two `Run Script` phases in the order shown below. You can rename them if you would like, but it is not required. Ensure you drag them to reorder them as they are shown below.
-
-![Build Phases Collapsed](/runScriptCollapsed.png)
-
-Then, let's configure them to do what they must
-
-#### Run Orion Script
-
-Place this run script directly below the `Dependencies` phase. This will be used to run the Orion precompiler. If you'd like to learn more about it, the GitHub is [here](https://github.com/theos/orion). Firstly, you will need the compiled Orion executable. Build it by following the below instructions.
-
-##### Building Orion
-
-To build Orion, please find a directory where you would like to build it. Then, run the below commands via terminal from your chosen directory.
-
-Clone Orion
-`git clone --recurse-submodules https://github.com/theos/orion`
-
-Get into the directory
-`cd orion`
-
-Build it
-`swift build --configuration release`
-
-Copy the finished product to where you'd like to store it, and remember it!
-`cp .build/release/orion /path/to/storing/orion`
-
-After this you're free to remove the GitHub cloned directory, but you do not have to. Make sure to not lose the executable though!
-
-##### Making it run Orion
-
-Back to your `Run Orion` script in Build phases, add the below script to this stage. Also make sure to uncheck `Based On Dependency Analysis` checkbox to force it to run at every build. 
-
-`/path/to/orion -o "${SRCROOT}"/"${TARGET_NAME}"/OrionGlue.swift`
-
-When complete, it should look exactly as below
-
-![Run Orion Script Build Phase](/orionScriptOpen.png)
-
-Note: Your path to the `orion` executable will likely not be the same. That's simply where I currently have orion stored.
-
-#### Leaf Run Script
-
-This Run Script Build Phase should be last in line, coming in just after `Copy Files`. This script is in charge of creating a .leaf file, and moving it to Maple's directory. Add the below script
-
-```bash
-cd "${TARGET_BUILD_DIR}"
-mkdir "${TARGET_NAME}"Container
-cp "${SRCROOT}"/"${TARGET_NAME}"/info.sap ./"${TARGET_NAME}"Container/info.sap
-cp ./"${TARGET_NAME}" ./"${TARGET_NAME}"Container/"${TARGET_NAME}"
-
-# Uncomment the below line if you have setup preferences for this leaf. Otherwise, leave commented
-# swift "${SRCROOT}"/"${TARGET_NAME}"/"${TARGET_NAME}"Preferences.swift ./"${TARGET_NAME}"Container/prefs.json
-
-zip -r "${TARGET_NAME}".zip ./"${TARGET_NAME}"Container
-
-cp ./"${TARGET_NAME}".zip ~/Library/Application\ Support/Maple/Development/"${TARGET_NAME}".zip
-rm -rf ./"${TARGET_NAME}"Container
-rm ./"${TARGET_NAME}".zip
-```
-
-As you can see above, there is a commented line which regards to Maple Preferences, which you can uncomment once you have configured settings(If you choose to implement them for your Leaf). Uncommenting this line without having set that up will prevent it from finishing properly.
-
-Again, you will also need to uncheck `Based on Dependency Analysis` checkbox to allow this script to run on every build. Once you're done, your phase will look like below.
-
-![Leaf Run Phase Open](/leafScriptOpen.png)
+- **name**: The name of the Maple Leaf
+- **author**: The name of the developer.... You!
+- author-email: Your email. This will be used for users to communicate with you on questions and concerns
+- author-discord: Your discord tag. This will be used for users to communicate with you on questions and concerns
+- tweak-website: A website which gives information about your Leaf. Could be a GitHub, your portfolio, or a dedicated website for this Leaf
+- **description**: The description presented to the user in Maple app
+- image: An image used when showing information about your leaf. The images can be chosen from SF Symbols app, and should be the name of an existing installed image
+- **lib-name**: The name of the executable. If you don't know it right now, leave it blank, we'll get to it below
+- **target-bundle-id**: The bundle identifier of the process which this Leaf will inject into. For our app, we'll be using `com.apple.Calculator`
+- **leaf-id**: The bundle identifier for your Maple Leaf. This should match the bundle identifier from when you created your project.
 
 ### Complete!
 
-Now, your project is setup and ready to start building. Once you put some form of an Orion class into the files, it should compile without issue. If you build your Maple Leaf now, you should receive an alert telling you that it has been installed and is now running. If you don't, then ensure you have your `info.sap` file configured properly, and you've followed all steps above. Just like below, you should be able to see your Leaf in Maple's list, just like below!
+Now, your project is setup and ready to start building. Once you put some form of an Orion class into the files, it should compile without issue. If you run mbuild now, you should receive an alert telling you that it has been installed and is now running. If you don't, then ensure you have your `info.sap` file configured properly, and you've followed all steps above. Just like below, you should be able to see your Leaf in Maple's list, just like below!
 
 ![Maple's Leaf List](/mapleLeafList.png)
 
@@ -268,21 +356,17 @@ First things first, you'll need a preferences file. This is used to create and e
 
 ![Preferences File Xcode Project Layout](/preferencesFileLayout.png)
 
-Now, you may notice that you have an error. This is because this file is meant to be run on it's own, and not compiled with your Leaf. To remove it, open the file inspector for this file, and uncheck your Leaf from the target membership section. Once you do that, it should look like the screenshot below, and you should have no more errors.
-
-![Target Membership Preferences File](/prefTargetMember.png)
+Now, you may notice that you have an error. This is because this file is meant to be run on it's own, and not compiled with your Leaf. To remove it, open `Package.swift` and add the file to the `exclude` array in the target section. Once you do that, you should have no more errors.
 
 Finally, update the bundle identifiers and preference identifiers in the template file to match what you want. Also, add `PreferenceGroup`s and `Preference`s as you like! To clarify any questions, see the links to these objects in the leftside panel! Documentation will hopefully be updated whenever the dopamine allows.
 
-## Uncomment the Run Script
+## Make sure you use mbuild correctly
 
-Remember when we setup the Run Script build phase earlier in our project? There was a commented line which stopped it from crashing. Now, we need that line! Open the Xcode project editor, and go to `Your Target` -> `Build Phases` and select the last `Run Script` phase. In that script there should be two lines which look like below. 
+Now that you're adding preferences, make sure when you build you add the `--prefs` flag to your mbuild command so it looks like below!
 
-![Commented Lines](/commentedPrefsScript.png)
-
-Delete the `#` sign from the beginning of the `swift ...` line so that it instead looks like this:
-
-![Uncommented Pref Line](/uncommentedPrefsLines.png)
+```bash
+mbuild MyVolume --prefs
+```
 
 Now your preferences will be bundled with your Leaf when you install them in Maple. See below.
 

@@ -13,12 +13,9 @@ let package = Package(
             name: "MapleKit",
             targets: ["MapleKit"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/theos/orion", branch: "master")
-    ],
+    dependencies: [],
     targets: [
-        .target(
-            name: "MapleKit",
-            dependencies: [])
+        .target(name: "MapleKit",
+                dependencies: []),
     ]
 )

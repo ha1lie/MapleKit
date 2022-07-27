@@ -12,7 +12,7 @@ For usage details, and other documentation, please visit [MapleKit's Documentati
 
 ## Installation
 
-To use, add MapleKit as a `Package Dependency` to your Xcode Command Line Project
+To use, add MapleKit as a `Package Dependency` to your Xcode SPM Project
 
     https://github.com/ha1lie/MapleKit
 

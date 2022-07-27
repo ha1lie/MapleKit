@@ -145,40 +145,195 @@
 <p><img src="/mapleSettings.png" alt="Maple Settings Screen"></p>
 
 <p>Now that Maple is ready to run your <em>Leaves-In-Development</em>, let&rsquo;s get started below. In this example, we&rsquo;ll make a simple Leaf which changes all NSTextViews in the Calculator app.</p>
+<h1 id='prep-your-mac' class='heading'>Prep your Mac</h1>
+
+<p>If this is your first time developing a Maple Leaf, you&rsquo;ll need to install <code>mbuild</code> which is a small utility to simplify the install process of your Leaf when developing it. You can see the <a href="https://github.com/ha1lie/mbuild">GitHub here</a>.</p>
+<h3 id='install-mbuild' class='heading'>Install mbuild</h3>
+
+<p>Open a Terminal window, and directly from the home directory, run the following commands. </p>
+
+<ol>
+<li>Create a directory to hold mbuild. You can put this anywhere, or use any existing directory. I&rsquo;ll keep mine at <code>~/maple/</code>  Make sure you adjust all directories in the below commands to reflect where you will keep mbuild.</li>
+</ol>
+<pre class="highlight shell"><code><span class="nb">mkdir</span> ~/maple
+</code></pre>
+
+<ol>
+<li>Download mbuild to the directory</li>
+</ol>
+<pre class="highlight shell"><code>curl <span class="nt">-L</span> <span class="nt">-o</span> ~/maple/mbuild https://github.com/ha1lie/mbuild/releases/download/v1.0/mbuild
+</code></pre>
+
+<ol>
+<li>Make it executable, so it can run. Enter your password if prompted</li>
+</ol>
+<pre class="highlight shell"><code><span class="nb">chmod</span> +x ~/maple/mbuild
+</code></pre>
+
+<ol>
+<li>Add the containing folder to your <code>$PATH</code> variable. This will vary from machine to machine. Most Macs run zsh, like mine, and it should just be a matter of adding the below line to the <strong>end</strong> of your <code>~/.zprofile</code> file</li>
+</ol>
+<pre class="highlight plaintext"><code>export PATH="$PATH:/Users/hallie/maple"
+</code></pre>
+
+<p>Once you do that, close and open a new window, and you&rsquo;re all set!</p>
+<h3 id='testing-mbuild' class='heading'>Testing mbuild</h3>
+
+<p>Before you get up and running, test mbuild to make sure you did all of the above steps correctly. In your home directory, run <code>mbuild</code> in your terminal, and it should spit out the help prompt for you. </p>
+<h3 id='using-mbuild' class='heading'>Using mbuild</h3>
+
+<p>To use mbuild, you&rsquo;ll want to have a terminal open in the top level directory of your SPM project. Then, run it like below, replacing <code>PROJECTNAME</code> with the correct name. Running this command will run swift build to create the dylib, package your leaf, and install it to Maple. </p>
+<pre class="highlight shell"><code>mbuild PROJECTNAME
+</code></pre>
+
+<p>If you&rsquo;re building a leaf with preferences, you&rsquo;ll want to add the <code>--prefs</code> flag as well. </p>
+
+<p>Finally, if you&rsquo;re building a final version of your leaf, you&rsquo;ll want to add the <code>--release-mode</code> flag to the end of the command. </p>
 <h1 id='create-your-xcode-project' class='heading'>Create your Xcode Project</h1>
 
-<p>To get started, create a new Xcode project. Select <code>MacOS</code> -&gt; <code>Command Line Tool</code></p>
+<p>Thanks to a quick update after Maple was initially released, building Maple Leafs actually got a reboot, and this section is now a lot quicker thanks to being able to utilize SPM projects!</p>
 
-<p><img src="/createOne.png" alt="Xcode Project Type Selection"></p>
+<p>First, start a new Xcode project, select <code>Multiplatform</code> -&gt; <code>Swift Package</code></p>
 
-<p>Then, give your project a name, and a Bundle Identifier. This will have to match your Leaf&rsquo;s Bundle ID, so make sure it is unique to you, and you won&rsquo;t cause any of your users problems.</p>
+<p><img src="/createSPM.png" alt="Xcode Project Type Selection"></p>
 
-<p><img src="/createOne.png" alt="Xcode Project Creation Screen"></p>
+<p>Click <code>Next</code> and then choose a name for your Leaf, as well as where you&rsquo;d like to store it. I created mine in the Documents directory, and named it MyVolume. When you&rsquo;re ready, click <code>Create</code></p>
 
-<p>When you&rsquo;re done, your project layout should look like this:</p>
+<p><img src="/spmConf.png" alt="Xcode Project Configuration Screen"></p>
 
-<p><img src="/createLayout.png" alt="Xcode Project Layout"></p>
+<p>Your project will initialize and open to it&rsquo;s <code>Package.swift</code> file, which should look extremely similar to the one below. </p>
+<pre class="highlight swift"><code><span class="c1">// swift-tools-version: 5.6</span>
+<span class="c1">// The swift-tools-version declares the minimum version of Swift required to build this package.</span>
 
-<p>Now, we need to make a few changes to your Project&rsquo;s layout, and Build Settings, and Build Phases in order for your project to be built correctly</p>
+<span class="kd">import</span> <span class="kt">PackageDescription</span>
+
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+    <span class="nv">products</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Products define the executables and libraries a package produces, and make them visible to other packages.</span>
+        <span class="o">.</span><span class="nf">library</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+                 <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span><span class="s">"MyVolume"</span><span class="p">]),</span>
+    <span class="p">],</span>
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Dependencies declare other packages that this package depends on.</span>
+        <span class="c1">// .package(url: /* package url */, from: "1.0.0"),</span>
+    <span class="p">],</span>
+    <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Targets are the basic building blocks of a package. A target can define a module or a test suite.</span>
+        <span class="c1">// Targets can depend on other targets in this package, and on products in packages this package depends on.</span>
+        <span class="o">.</span><span class="nf">target</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+                <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[]),</span>
+        <span class="o">.</span><span class="nf">testTarget</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolumeTests"</span><span class="p">,</span>
+                    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span><span class="s">"MyVolume"</span><span class="p">]),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+<h2 id='configure-package-swift' class='heading'>Configure Package.swift</h2>
+
+<p>As you can see, this file is responsible for all of the metadata associated with your project. We&rsquo;re going to make just a few tweaks to it.</p>
+<h3 id='platforms' class='heading'>Platforms</h3>
+
+<p>Firstly, you&rsquo;re going to want to tell Xcode what platforms this software can run on. For us, it&rsquo;s any versions of MacOS higher than 11.0 (MacOS Big Sur). We can declare this by adding the following lines just under the <code>name</code> declaration.</p>
+<pre class="highlight swift"><code><span class="nv">platforms</span><span class="p">:</span> <span class="p">[</span>
+    <span class="o">.</span><span class="nf">macOS</span><span class="p">(</span><span class="o">.</span><span class="n">v11</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre>
+
+<p>Of course, if your Leaf targets a higher version of MacOS for any reason, you can change it to that version, but because of what Maple supports, you cannot specify anything below 11.0, or else Xcode will complain. </p>
+<h3 id='targets-and-products' class='heading'>Targets and Products</h3>
+
+<p>Targets and products specify what we are building. We&rsquo;ll be building a <em>Dynamic Library</em>, so we need to specify that. </p>
+
+<p>In <code>targets: []</code>, delete the <code>.target(name: &quot;Project Name&quot;...</code> object, and replace it with the below code while replacing <code>**PROJECTNAME**</code> with the name of your project.</p>
+<pre class="highlight swift"><code>    <span class="o">.</span><span class="nf">executableTarget</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"**PROJECTNAME**"</span><span class="p">,</span>
+                      <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="o">.</span><span class="nf">product</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MapleKit"</span><span class="p">,</span> <span class="nv">package</span><span class="p">:</span> <span class="s">"maplekit"</span><span class="p">),</span>
+                          <span class="o">.</span><span class="nf">product</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Orion"</span><span class="p">,</span> <span class="nv">package</span><span class="p">:</span> <span class="s">"orion"</span><span class="p">),</span>
+                      <span class="p">],</span> 
+                      <span class="nv">exclude</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="s">"info.sap"</span>
+                      <span class="p">],</span>
+                      <span class="nv">plugins</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="o">.</span><span class="nf">plugin</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"OrionPlugin"</span><span class="p">,</span> <span class="nv">package</span><span class="p">:</span> <span class="s">"orion"</span><span class="p">),</span>
+                      <span class="p">],</span>
+                    <span class="p">),</span>
+</code></pre>
+
+<p>This does a few things&hellip;</p>
+
+<ol>
+<li>Defines an executable target, meaning that it will compile code which can be run</li>
+<li>Adds both <code>MapleKit</code> and <code>Orion</code> as dependencies. Xcode will complain for a minute, but we&rsquo;ll fix it below</li>
+<li>Preliminarily excludes <code>info.sap</code> files from your sources&hellip; we&rsquo;ll add this later</li>
+<li>Adds the Orion Pre-Processor so that Orion can be run</li>
+</ol>
+
+<p>Now, products are the finished products created when compiling the source code. Most of the work has already been done for us, but Xcode generated code for a static library. We need ours to be dynamic. Change the <code>.library</code> argument in <code>products: []</code> to mirror below.</p>
+<pre class="highlight swift"><code><span class="o">...</span>
+<span class="nv">products</span><span class="p">:</span> <span class="p">[</span>
+    <span class="o">.</span><span class="nf">library</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+             <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="kd">dynamic</span><span class="p">,</span>
+             <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span><span class="s">"MyVolume"</span><span class="p">]),</span>
+<span class="p">],</span>
+<span class="o">...</span>
+</code></pre>
 <h3 id='dependencies' class='heading'>Dependencies</h3>
 
-<p>As all Maple Leaf&rsquo;s rely on both <a href="https://github.com/ha1lie/MapleKit">MapleKit</a> and <a href="https://github.com/theos/orion">Orion</a> to work, you will need to add these as dependencies to your Xcode project. To do so, go to the general tab for your Leaf&rsquo;s Target in Xcode. There, click the <code>+</code> button, select <code>Add Other</code> and choose <code>Add Package Dependency...</code>. Once in that window, paste both of the below URLs into the search bar to add them. </p>
+<p>Remember how Maple Leafs are built with MapleKit, and the method replacement is done with Orion? Well, those are both dependencies, and we have to tell Xcode that. There is already a section for dependencies, so add the below lines within the <code>[]</code> array. </p>
+<pre class="highlight swift"><code>    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/ha1lie/maplekit"</span><span class="p">,</span> <span class="nv">branch</span><span class="p">:</span> <span class="s">"main"</span><span class="p">),</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/theos/orion"</span><span class="p">,</span> <span class="nv">branch</span><span class="p">:</span> <span class="s">"master"</span><span class="p">),</span>
+</code></pre>
+<h3 id='done' class='heading'>Done</h3>
 
-<p><strong>MapleKit URL</strong>
-<code>https://github.com/ha1lie/MapleKit</code></p>
+<p>Once you&rsquo;re all said and done, your <code>Package.swift</code> file should look like below</p>
+<pre class="highlight swift"><code><span class="c1">// swift-tools-version: 5.6</span>
+<span class="c1">// The swift-tools-version declares the minimum version of Swift required to build this package.</span>
 
-<p><strong>Orion URL</strong>
-<code>https://github.com/theos/orion</code></p>
+<span class="kd">import</span> <span class="kt">PackageDescription</span>
 
-<p>When adding Orion, please ensure that your target selection screen matches the below:</p>
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+    <span class="nv">platforms</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nf">macOS</span><span class="p">(</span><span class="o">.</span><span class="n">v11</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="nv">products</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Products define the executables and libraries a package produces, and make them visible to other packages.</span>
+        <span class="o">.</span><span class="nf">library</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+                 <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="kd">dynamic</span><span class="p">,</span>
+                 <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span><span class="s">"MyVolume"</span><span class="p">]),</span>
+    <span class="p">],</span>
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Dependencies declare other packages that this package depends on.</span>
+        <span class="c1">// .package(url: /* package url */, from: "1.0.0"),</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/ha1lie/maplekit"</span><span class="p">,</span> <span class="nv">branch</span><span class="p">:</span> <span class="s">"main"</span><span class="p">),</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/theos/orion"</span><span class="p">,</span> <span class="nv">branch</span><span class="p">:</span> <span class="s">"master"</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Targets are the basic building blocks of a package. A target can define a module or a test suite.</span>
+        <span class="c1">// Targets can depend on other targets in this package, and on products in packages this package depends on.</span>
+        <span class="o">.</span><span class="nf">executableTarget</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolume"</span><span class="p">,</span>
+                      <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="o">.</span><span class="nf">product</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MapleKit"</span><span class="p">,</span> <span class="nv">package</span><span class="p">:</span> <span class="s">"maplekit"</span><span class="p">),</span>
+                          <span class="o">.</span><span class="nf">product</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Orion"</span><span class="p">,</span> <span class="nv">package</span><span class="p">:</span> <span class="s">"orion"</span><span class="p">),</span>
+                      <span class="p">],</span> 
+                      <span class="nv">exclude</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="s">"info.sap"</span>
+                      <span class="p">],</span>
+                      <span class="nv">plugins</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="o">.</span><span class="nf">plugin</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"OrionPlugin"</span><span class="p">,</span> <span class="nv">package</span><span class="p">:</span> <span class="s">"orion"</span><span class="p">),</span>
+                      <span class="p">],</span>
+                    <span class="p">),</span>
+        <span class="o">.</span><span class="nf">testTarget</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"MyVolumeTests"</span><span class="p">,</span>
+                    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span><span class="s">"MyVolume"</span><span class="p">]),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+<h2 id='add-needed-files' class='heading'>Add Needed Files</h2>
 
-<p><img src="/orionTargetSelection.png" alt="Orion Target Selection Screen"></p>
-<h3 id='project-layout' class='heading'>Project Layout</h3>
-
-<p>You&rsquo;ll need to add the following files to your project:</p>
+<p>There is just one more file needed before you can begin compiling your leaf, and that&rsquo;s Maple&rsquo;s meta-data file, <code>info.sap</code></p>
 <h4 id='info-sap' class='heading'>info.sap</h4>
 
-<p>This file is going to hold all of the configuration for your Maple Leaf to communicate the information to Maple. Below is an example</p>
+<p>This file is going to hold all of the configuration for your Maple Leaf to communicate the information to Maple. Create this file in your Sources folder, within your Project Name folder. Below is an example</p>
 <pre class="highlight plaintext"><code>name: CalculatorLabels
 author: Hallie
 author-email: hallie@halz.dev
@@ -205,95 +360,9 @@ leaf-id: dev.halz.calclabels
 <li><strong>target-bundle-id</strong>: The bundle identifier of the process which this Leaf will inject into. For our app, we&rsquo;ll be using <code>com.apple.Calculator</code></li>
 <li><strong>leaf-id</strong>: The bundle identifier for your Maple Leaf. This should match the bundle identifier from when you created your project.</li>
 </ul>
-<h4 id='orionglue-swift' class='heading'>OrionGlue.swift</h4>
-
-<p>This file will be used by the Orion backend to add glue. You&rsquo;re adding this file to make it easier for Xcode to find the code it needs to compile. Create it in the same directory as <code>main.swift</code>, and leave it empty.</p>
-
-<p>At this point, your Project Layout should look like below:</p>
-
-<p><img src="/fileLayout.png" alt="Project Layout Final"></p>
-<h3 id='build-settings' class='heading'>Build Settings</h3>
-
-<p>Ensure you have changed all settings below to match these. Other than that, you will not have to worry as everything should line up.</p>
-
-<ul>
-<li><strong>Linking</strong>
-
-<ul>
-<li>Mach-O Type: Dynamic Library
-
-<ul>
-<li><strong>Packaging</strong></li>
-<li>Product Name: This does not need to be changed, but does need to match the <code>lib-name</code> field in <code>info.sap</code></li>
-</ul></li>
-</ul></li>
-</ul>
-<h3 id='build-phases' class='heading'>Build Phases</h3>
-
-<p>You may have noticed earlier that we don&rsquo;t actually want a Command Line Tool when we&rsquo;re all said and done ~ we want a Maple Leaf. To do this, we add a few Build Phases to help accomplish this. </p>
-
-<p>First, add two <code>Run Script</code> phases in the order shown below. You can rename them if you would like, but it is not required. Ensure you drag them to reorder them as they are shown below.</p>
-
-<p><img src="/runScriptCollapsed.png" alt="Build Phases Collapsed"></p>
-
-<p>Then, let&rsquo;s configure them to do what they must</p>
-<h4 id='run-orion-script' class='heading'>Run Orion Script</h4>
-
-<p>Place this run script directly below the <code>Dependencies</code> phase. This will be used to run the Orion precompiler. If you&rsquo;d like to learn more about it, the GitHub is <a href="https://github.com/theos/orion">here</a>. Firstly, you will need the compiled Orion executable. Build it by following the below instructions.</p>
-<h5 id='building-orion' class='heading'>Building Orion</h5>
-
-<p>To build Orion, please find a directory where you would like to build it. Then, run the below commands via terminal from your chosen directory.</p>
-
-<p>Clone Orion
-<code>git clone --recurse-submodules https://github.com/theos/orion</code></p>
-
-<p>Get into the directory
-<code>cd orion</code></p>
-
-<p>Build it
-<code>swift build --configuration release</code></p>
-
-<p>Copy the finished product to where you&rsquo;d like to store it, and remember it!
-<code>cp .build/release/orion /path/to/storing/orion</code></p>
-
-<p>After this you&rsquo;re free to remove the GitHub cloned directory, but you do not have to. Make sure to not lose the executable though!</p>
-<h5 id='making-it-run-orion' class='heading'>Making it run Orion</h5>
-
-<p>Back to your <code>Run Orion</code> script in Build phases, add the below script to this stage. Also make sure to uncheck <code>Based On Dependency Analysis</code> checkbox to force it to run at every build. </p>
-
-<p><code>/path/to/orion -o &quot;${SRCROOT}&quot;/&quot;${TARGET_NAME}&quot;/OrionGlue.swift</code></p>
-
-<p>When complete, it should look exactly as below</p>
-
-<p><img src="/orionScriptOpen.png" alt="Run Orion Script Build Phase"></p>
-
-<p>Note: Your path to the <code>orion</code> executable will likely not be the same. That&rsquo;s simply where I currently have orion stored.</p>
-<h4 id='leaf-run-script' class='heading'>Leaf Run Script</h4>
-
-<p>This Run Script Build Phase should be last in line, coming in just after <code>Copy Files</code>. This script is in charge of creating a .leaf file, and moving it to Maple&rsquo;s directory. Add the below script</p>
-<pre class="highlight shell"><code><span class="nb">cd</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_BUILD_DIR</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">mkdir</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container
-<span class="nb">cp</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SRCROOT</span><span class="k">}</span><span class="s2">"</span>/<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>/info.sap ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container/info.sap
-<span class="nb">cp</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container/<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>
-
-<span class="c"># Uncomment the below line if you have setup preferences for this leaf. Otherwise, leave commented</span>
-<span class="c"># swift "${SRCROOT}"/"${TARGET_NAME}"/"${TARGET_NAME}"Preferences.swift ./"${TARGET_NAME}"Container/prefs.json</span>
-
-zip <span class="nt">-r</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container
-
-<span class="nb">cp</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip ~/Library/Application<span class="se">\ </span>Support/Maple/Development/<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip
-<span class="nb">rm</span> <span class="nt">-rf</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>Container
-<span class="nb">rm</span> ./<span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_NAME</span><span class="k">}</span><span class="s2">"</span>.zip
-</code></pre>
-
-<p>As you can see above, there is a commented line which regards to Maple Preferences, which you can uncomment once you have configured settings(If you choose to implement them for your Leaf). Uncommenting this line without having set that up will prevent it from finishing properly.</p>
-
-<p>Again, you will also need to uncheck <code>Based on Dependency Analysis</code> checkbox to allow this script to run on every build. Once you&rsquo;re done, your phase will look like below.</p>
-
-<p><img src="/leafScriptOpen.png" alt="Leaf Run Phase Open"></p>
 <h3 id='complete' class='heading'>Complete!</h3>
 
-<p>Now, your project is setup and ready to start building. Once you put some form of an Orion class into the files, it should compile without issue. If you build your Maple Leaf now, you should receive an alert telling you that it has been installed and is now running. If you don&rsquo;t, then ensure you have your <code>info.sap</code> file configured properly, and you&rsquo;ve followed all steps above. Just like below, you should be able to see your Leaf in Maple&rsquo;s list, just like below!</p>
+<p>Now, your project is setup and ready to start building. Once you put some form of an Orion class into the files, it should compile without issue. If you run mbuild now, you should receive an alert telling you that it has been installed and is now running. If you don&rsquo;t, then ensure you have your <code>info.sap</code> file configured properly, and you&rsquo;ve followed all steps above. Just like below, you should be able to see your Leaf in Maple&rsquo;s list, just like below!</p>
 
 <p><img src="/mapleLeafList.png" alt="Maple&#39;s Leaf List"></p>
 
@@ -378,20 +447,14 @@ zip <span class="nt">-r</span> <span class="s2">"</span><span class="k">${</span
 
 <p><img src="/preferencesFileLayout.png" alt="Preferences File Xcode Project Layout"></p>
 
-<p>Now, you may notice that you have an error. This is because this file is meant to be run on it&rsquo;s own, and not compiled with your Leaf. To remove it, open the file inspector for this file, and uncheck your Leaf from the target membership section. Once you do that, it should look like the screenshot below, and you should have no more errors.</p>
-
-<p><img src="/prefTargetMember.png" alt="Target Membership Preferences File"></p>
+<p>Now, you may notice that you have an error. This is because this file is meant to be run on it&rsquo;s own, and not compiled with your Leaf. To remove it, open <code>Package.swift</code> and add the file to the <code>exclude</code> array in the target section. Once you do that, you should have no more errors.</p>
 
 <p>Finally, update the bundle identifiers and preference identifiers in the template file to match what you want. Also, add <code><a href="Classes/PreferenceGroup.html">PreferenceGroup</a></code>s and <code><a href="Classes/Preference.html">Preference</a></code>s as you like! To clarify any questions, see the links to these objects in the leftside panel! Documentation will hopefully be updated whenever the dopamine allows.</p>
-<h2 id='uncomment-the-run-script' class='heading'>Uncomment the Run Script</h2>
+<h2 id='make-sure-you-use-mbuild-correctly' class='heading'>Make sure you use mbuild correctly</h2>
 
-<p>Remember when we setup the Run Script build phase earlier in our project? There was a commented line which stopped it from crashing. Now, we need that line! Open the Xcode project editor, and go to <code>Your Target</code> -&gt; <code>Build Phases</code> and select the last <code>Run Script</code> phase. In that script there should be two lines which look like below. </p>
-
-<p><img src="/commentedPrefsScript.png" alt="Commented Lines"></p>
-
-<p>Delete the <code>#</code> sign from the beginning of the <code>swift ...</code> line so that it instead looks like this:</p>
-
-<p><img src="/uncommentedPrefsLines.png" alt="Uncommented Pref Line"></p>
+<p>Now that you&rsquo;re adding preferences, make sure when you build you add the <code>--prefs</code> flag to your mbuild command so it looks like below!</p>
+<pre class="highlight shell"><code>mbuild MyVolume <span class="nt">--prefs</span>
+</code></pre>
 
 <p>Now your preferences will be bundled with your Leaf when you install them in Maple. See below.</p>
 
@@ -498,7 +561,7 @@ zip <span class="nt">-r</span> <span class="s2">"</span><span class="k">${</span
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="https://hey.halz.dev" target="_blank" rel="external noopener">Hallie</a>. All rights reserved. (Last updated: 2022-07-21)</p>
+      <p>&copy; 2022 <a class="link" href="https://hey.halz.dev" target="_blank" rel="external noopener">Hallie</a>. All rights reserved. (Last updated: 2022-07-27)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
